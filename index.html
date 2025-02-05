@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout</title>
+  <style>
+    #whatsappButton {
+      background-color: #25D366;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Checkout</h2>
+
+  <div id="cartDetails">
+    <h3>Your Cart:</h3>
+    <ul id="cartItems">
+    </ul>
+    <p><strong>Total: $<span id="totalPrice">0</span></strong></p>
+  </div>
+
+  <button id="whatsappButton">Order via WhatsApp</button>
+
+  <script>
+    let cart = [
+      { name: "Casual Shirt", quantity: 2, price: 500 },
+      { name: "Jeans Pant", quantity: 1, price: 1000 }
+    ];
+
+    const cartItemsContainer = document.getElementById('cartItems');
+    let totalPrice = 0;
+    cart.forEach(item => {
+      let li = document.createElement('li');
+      li.textContent = `${item.name} - Quantity: ${item.quantity}, Price: $${item.price}`;
+      cartItemsContainer.appendChild(li);
+      totalPrice += item.quantity * item.price;
+    });
+
+    document.getElementById('totalPrice').textContent = totalPrice;
+
+    document.getElementById('whatsappButton').addEventListener('click', function() {
+      let phoneNumber = '+919392069813';
+      let message = 'Order Details:\n';
+
+      cart.forEach(item => {
+        message += `${item.name} - Quantity: ${item.quantity}, Price: $${item.price}\n`;
+      });
+
+      message += `Total: $${totalPrice}`;
+
+      let encodedMessage = encodeURIComponent(message);
+      let url = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+
+      window.open(url, '_blank');
+    });
+  </script>
+
+</body>
+</html>
